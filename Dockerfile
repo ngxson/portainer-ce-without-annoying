@@ -1,4 +1,4 @@
-FROM portainer/portainer-ce:2.17.0 as portainer
+FROM portainer/portainer-ce:latest as portainer
 FROM node:18-alpine3.17
 
 WORKDIR /
