@@ -14,6 +14,7 @@ const INJECTED_HTML = `
 const TARGET_URL = 'http://localhost:19000';
 const SSL_CERT_PATH = '/data/certs/cert.pem';
 const SSL_KEY_PATH = '/data/certs/key.pem';
+const FORWARDED_ARGS = process.argv.slice(2);
 
 // proxy logic
 const app = express();
@@ -51,7 +52,12 @@ async function runServer() {
 
 // child process for portainer
 function runPortainer() {
-  const child = spawn('/bin/sh', ['-c', '/portainer --bind=":19000" --bind-https=":19443"']);
+  const fwdArgs = FORWARDED_ARGS.join(' ');
+  console.log(`Launching portainer with args ${fwdArgs}`)
+  const child = spawn('/bin/sh', [
+    '-c',
+    `/portainer --bind=":19000" --bind-https=":19443" ${fwdArgs}`
+  ]);
   child.stdout.pipe(process.stdout);
   child.stderr.pipe(process.stderr);
   child.on('exit', function (code) {

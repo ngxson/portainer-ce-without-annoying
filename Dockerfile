@@ -9,4 +9,7 @@ WORKDIR /proxy
 RUN npm i express http-proxy-middleware
 COPY app.js .
 
-CMD ["node", "app.js"]
+COPY docker-entrypoint.sh /
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+
