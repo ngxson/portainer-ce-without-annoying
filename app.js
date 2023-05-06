@@ -8,7 +8,20 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const INJECTED_HTML = `
   <style>
     /* hide Upgrade to Business on sidebar */
-    div.sidebar > button {display: none;}
+    div.sidebar > button {display: none !important;}
+
+    /* hide Authentication logs */
+    [aria-label="Authentication logs"] {display: none !important;}
+
+    /* hide everything having the BE Feature banner */
+    .be-indicator-container, .limited-be {display: none !important;}
+
+    /* this should not be hidden, but let's make it more subtle */
+    .be-indicator {
+      filter: saturate(0) !important;
+      opacity: 0.2 !important;
+      pointer-events: none !important;
+    }
   </style>
 `;
 const TARGET_URL = 'http://localhost:19000';
