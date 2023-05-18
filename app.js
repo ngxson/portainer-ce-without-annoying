@@ -23,6 +23,25 @@ const INJECTED_HTML = `
       pointer-events: none !important;
     }
   </style>
+  <script>
+    // Block tracking script matomo.cloud
+    // https://github.com/ngxson/portainer-ce-without-annoying/issues/5
+    (function () {
+      var headNode = document.getElementsByTagName('script')[0].parentNode;
+
+      // save the original function
+      headNode.originalInsertBefore = headNode.insertBefore;
+
+      // intercept the function call
+      headNode.insertBefore = function(newNode, referenceNode) {
+        if (newNode && newNode.src && newNode.src.indexOf('matomo') !== -1) {
+          console.log('Blocked insertion of matomo script node');
+        } else {
+          headNode.originalInsertBefore(newNode, referenceNode);
+        }
+      }
+    })();
+  </script>
 `;
 const TARGET_URL = 'http://localhost:19000';
 const SSL_CERT_PATH = '/data/certs/cert.pem';
