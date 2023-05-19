@@ -23,6 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - run: apt update && apt install -y qemu-user-static
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -34,6 +39,8 @@ jobs:
           SKIP_LOGIN: true
         
       # https://github.com/actions-hub/docker/blob/master/login/entrypoint.sh
-      - run: |
-          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-          cd scripts && node ci_cd.js rebuild=${{ inputs.rebuild }}
+      - name: Login docker hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+      
+      - name: Build and push
+        run: cd scripts && node ci_cd.js rebuild=${{ inputs.rebuild }}
