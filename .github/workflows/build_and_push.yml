@@ -19,9 +19,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.0'
+
       - name: Build & push
         uses: docker/cli@v1
         with:
-          node-version: '18.16.0'
-        run: |
-          cd scripts && node ci_cd.js
+          command: |
+            cd scripts && node ci_cd.js
