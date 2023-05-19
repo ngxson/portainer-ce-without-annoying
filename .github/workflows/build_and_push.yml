@@ -30,6 +30,8 @@ jobs:
 
       - name: Setup docker
         uses: actions-hub/docker/cli@master
+        env:
+          SKIP_LOGIN: true
         
       # https://github.com/actions-hub/docker/blob/master/login/entrypoint.sh
       - run: |
