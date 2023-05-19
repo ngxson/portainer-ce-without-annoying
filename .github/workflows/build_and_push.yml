@@ -17,7 +17,6 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_REGISTRY_URL: hub.docker.com
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
