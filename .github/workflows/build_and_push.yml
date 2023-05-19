@@ -12,20 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Log in to hub.docker.com
-        uses: docker/login-action@v2
-        with:
-          registry: hub.docker.com
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Login to docker hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_REGISTRY_URL: hub.docker.com
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.16.0'
 
-      - name: Build & push
-        uses: docker/cli@v1
-        with:
-          command: |
-            cd scripts && node ci_cd.js
+      - name: Setup docker
+        uses: actions-hub/docker/cli@master
+        env:
+          SKIP_LOGIN: true
+        
+      - run: cd scripts && node ci_cd.js
