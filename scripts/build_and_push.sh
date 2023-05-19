@@ -14,12 +14,5 @@ fi
 cp Dockerfile Dockerfile.tmp
 sed -i "s/portainer-ce:latest/portainer-ce:$TAG/g" Dockerfile.tmp
 
-if [ -z "$MULTIARCH" ]; then
-  docker build -t "$IMAGE:$TAG" -f Dockerfile.tmp .
-else
-  echo "Multi-arch build..."
-  docker buildx create --use desktop-linux
-  docker buildx build --platform=$ARCHS -t "$IMAGE:$TAG" -f Dockerfile.tmp .
-fi
-
-docker push "$IMAGE:$TAG"
+echo "Multi-arch build..."
+docker buildx build --platform=$ARCHS --push -t "$IMAGE:$TAG" -f Dockerfile.tmp .

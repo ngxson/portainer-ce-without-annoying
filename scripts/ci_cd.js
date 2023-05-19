@@ -10,7 +10,7 @@ const shouldRebuild = !!process.argv.join(' ').match(/rebuild=true/);
 
 function build_and_push(tag) {
   const cwd = path.join(__dirname, '..');
-  const command = `TAG=${tag} MULTIARCH=1 ./scripts/build_and_push.sh`;
+  const command = `TAG=${tag} ./scripts/build_and_push.sh`;
 
   return new Promise(resolve => {
     const subproc = spawn('/bin/sh', ['-c', command], { cwd });
