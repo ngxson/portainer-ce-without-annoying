@@ -5,6 +5,14 @@ on:
     branches:
       - test_ci
   workflow_dispatch:
+    inputs:
+      rebuild:
+        description: 'Set to "true" to force re-build last 5 tags'
+        required: true
+        options: 
+          - 'true'
+          - 'false'
+        default: 'false'
   schedule:
     - cron: '0 0 * * *'
 
@@ -15,12 +23,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to docker hub
-        uses: actions-hub/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -28,7 +30,8 @@ jobs:
 
       - name: Setup docker
         uses: actions-hub/docker/cli@master
-        env:
-          SKIP_LOGIN: true
         
-      - run: cd scripts && node ci_cd.js
+      # https://github.com/actions-hub/docker/blob/master/login/entrypoint.sh
+      - run: |
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          cd scripts && node ci_cd.js rebuild=${{ inputs.rebuild }}
