@@ -3,7 +3,7 @@ name: Build and push
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
     inputs:
       rebuild:
