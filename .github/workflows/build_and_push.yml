@@ -3,7 +3,7 @@ name: Build and push
 on:
   push:
     branches:
-      - test_ci
+      - main
   workflow_dispatch:
     inputs:
       rebuild:

@@ -4,6 +4,9 @@ const { spawn } = require('child_process');
 const ACCEPTED_TAGS_FROM = '2.17.0';
 const UPSTREAM_REPO = 'portainer/portainer-ce';
 const OUTPUT_REPO = 'ngxson/portainer-ce-without-annoying';
+const NUMBER_OF_TAGS_REBUILD = 5;
+
+const shouldRebuild = !!process.argv.join(' ').match(/rebuild=true/);
 
 function build_and_push(tag) {
   const cwd = path.join(__dirname, '..');
@@ -65,7 +68,12 @@ async function processRepos(repoA, repoB) {
     const tagsB = await fetchTags(repoB);
     console.log({ tagsA, tagsB });
 
-    const tagDifference = findTagDifference(tagsA, tagsB);
+    const tagDifference = shouldRebuild
+      ? [...tagsB]
+        .sort((a, b) => semverToInt(b) - semverToInt(a)) // sort desc
+        .filter(t => t !== 'latest')
+        .slice(0, NUMBER_OF_TAGS_REBUILD)
+      : findTagDifference(tagsA, tagsB);
 
     // added by me
     const acceptTagsFrom = semverToInt(ACCEPTED_TAGS_FROM);

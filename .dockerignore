@@ -1,0 +1,6 @@
+scripts
+.github
+
+node_modules
+data
+Dockerfile.tmp
