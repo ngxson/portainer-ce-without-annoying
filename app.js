@@ -61,6 +61,11 @@ app.get('/', async (req, res) => {
     res.status(500).json(e);
   }
 });
+app.get('/api/motd', (req, res) => {
+  // hide the "Latest News From Portainer"
+  // https://github.com/portainer/portainer/blob/master/app/portainer/views/home/home.html
+  res.json({});
+});
 app.use(createProxyMiddleware({
   target: TARGET_URL,
   ws: true,
