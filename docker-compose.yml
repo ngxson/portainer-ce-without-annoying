@@ -1,13 +1,16 @@
 version: '2'
 
+# ONLY USE FOR DEV
+
 services:
   portainer:
     build: .
+    privileged: true
     container_name: portainer
     hostname: portainer
     ports:
       - 9443:9443
       - 9000:9000
     volumes:
-      - ./data:/data
+      - ./data:/data:Z
       - /var/run/docker.sock:/var/run/docker.sock
