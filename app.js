@@ -16,6 +16,9 @@ const INJECTED_HTML = `
     /* hide everything having the BE Feature banner */
     .be-indicator-container, .limited-be {display: none !important;}
 
+    /* FIXME: hot fix to show OAuth save button #10 */
+    .oauth-save-settings-button {display: inline-block !important;}
+
     /* this should not be hidden, but let's make it more subtle */
     .be-indicator {
       filter: saturate(0) !important;
