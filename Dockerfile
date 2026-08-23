@@ -6,7 +6,7 @@ COPY --from=portainer . .
 
 WORKDIR /proxy
 
-RUN npm i express http-proxy-middleware
+RUN npm i express@^4 http-proxy-middleware@^2
 COPY app.js .
 
 COPY docker-entrypoint.sh /
