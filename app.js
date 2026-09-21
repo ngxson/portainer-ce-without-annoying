@@ -16,6 +16,9 @@ const INJECTED_HTML = `
     /* hide everything having the BE Feature banner */
     .be-indicator-container, .limited-be {display: none !important;}
 
+    /* hide Authentication method "Microsoft Active Directory" */
+    .app-react-components-BoxSelector-BoxSelectorItem-module__business {display: none !important;}
+
     /* FIXME: hot fix to show OAuth save button #10 */
     .oauth-save-settings-button {display: inline-block !important;}
 
